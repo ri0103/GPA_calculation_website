@@ -1,0 +1,243 @@
+* {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    color: #363636;
+}
+
+body{
+    text-align: center;
+    justify-content: center;
+    background-color: #f5faff;
+}
+
+#autumn_subject_inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+h1{
+    font-size: 18px;
+}
+
+.spring_inputs_div{
+    margin: 0 auto;
+    width: fit-content;
+    background-color: #bad0df;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.spring-inputs-inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px;
+}
+
+.spring-inputs-inner p{
+    width: 160px;
+    text-align: left;
+    margin: 0;
+}
+
+.spring-inputs-inner input{
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    width: 100px;
+    border: none;
+    border-radius: 4px;
+    height: 24px;
+}
+
+#autumn_subject{
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+#springGpaInput{
+    font-size: 20px;
+    width: 76px;
+    height: 24px;
+    font-weight: 400;
+}
+
+#springTotalDegreeInput{
+    font-size: 18px;
+    width: 76px;
+    height: 24px;
+    font-weight: 400;
+}
+
+input[type=radio] {
+    display: none; /* ラジオボタンを非表示にする */
+}
+
+.subject-radio-group input[type="radio"]:checked + label {
+    background: #4380a8;/* マウス選択時の背景色を指定する */
+    color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+
+.degree-radio-group input[type="radio"]:checked + label {
+    background: #488768;/* マウス選択時の背景色を指定する */
+    color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+
+.subject-label{
+    /* display: block;  */
+    /* float: left;  */
+    /* margin: 1px;  */
+    width: 24px; 
+    height: 24px;
+    padding: 0 2px 0 2px;
+    color: #363636;
+    text-align: center;
+    cursor: pointer; 
+    /* border: 2px solid #2e5882; */
+    border-radius: 4px; 
+}
+
+.degree-count-label {
+    height: 24px;
+    width: 18px; 
+    padding: 0 2px 0 2px;
+    color: #363636;
+    text-align: center;
+    cursor: pointer; 
+    /* border: 2px solid #2e5882; */
+    border-radius: 4px; 
+}
+
+.subject-div{
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(-20px);
+    position: relative;
+    width: fit-content;
+    padding: 12px;
+    display: flex;
+    margin: 12px;
+    margin: 12px auto;
+    background-color: #b9d2eb;
+    border-radius: 12px;
+}
+
+.subject-div.added {
+    opacity: 1;
+    transform: translateY(0);
+}
+.subject-div.removing {
+    font-size: 1px;
+    opacity: 0;
+    height: 0;
+    transform: translateY(20px);
+}
+
+.remove-subject-button{
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    left: -8px;
+    top: -8px;
+    background-color: #ee9696; /* 赤色 */
+    color: white; /* 文字色（バツの色） */
+    border: none; /* 枠線を消す */
+    border-radius: 10px; /* 円形にする */
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+
+.subject-inner-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 4px;
+}
+
+.subject-inner-div > p{
+    font-size: 12px;
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+.subject-radio-group, .degree-radio-group{
+    display: flex;
+}
+
+
+.subject-name-input{
+    font-size: 14px;
+    width: 100px;
+    border: none;
+    border-radius: 4px;
+    height: 24px;
+}
+
+.add-subject-button{
+    background-color: #5c6dac; 
+    color: white;
+    border: none; 
+    border-radius: 12px; /* 円形にする */
+    height: 48px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 48px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.autumn_degree_count_preview p{
+    margin: 12px 0px;
+}
+
+#autumn_degree_count_text{
+    font-weight: 600;
+}
+
+
+.result-div{
+    margin: 12px 0;
+    /* display: flex;
+    justify-content: center; */
+    gap: 24px;
+}
+
+.result-div button{
+    background-color: #4380a8; 
+    color: white;
+    border: none; 
+    border-radius: 12px; 
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    padding: 12px 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.result-div p{
+    font-size: 24px;
+    margin: 0;
+}
+
+#result{
+    font-size: 48px;
+    color: #488768;
+    font-weight: 700;
+}
+
+.warning{
+    font-size: 10px;
+    margin: 48px 0 4px 0;
+}
+
+footer{
+    font-size: 8px;
+}

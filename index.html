@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA計算機</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>慶應理工学部1年生が秋学期に<br>GPAを計算するためだけのサイト</h1>
+    
+    <div class="spring_inputs_div">
+        <div class="spring-inputs-inner">
+            <p>春学期のGPA</p>
+            <input type="number" id="springGpaInput" oninput="calculate()">
+             
+        </div>
+        <div class="spring-inputs-inner">
+            <p>春学期の単位数</p>  
+            <input type="number" id="springTotalDegreeInput" oninput="calculate()">
+        </div>
+    </div>
+    <div id="autumn_subject">
+    </div>
+
+    <div class="autumn_degree_count_preview"><p>秋学期の予定取得単位数: <span id="autumn_degree_count_text">-</span></p></div>
+
+    <button onclick="addSubjectInput()" class="add-subject-button">+ 科目を追加</button>
+
+    <div class="result-div">
+        <!-- <button onclick="calculate()">計算</button> -->
+        <p>GPA: <span id="result">-</span></p>
+    </div>
+
+    <script>
+
+        window.onload = function () {
+            const defaultSubjects = ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学B"];
+            for (let i = 0; i < defaultSubjects.length; i++) {
+                addSubjectInput(defaultSubjects[i]);
+            }
+            document.getElementById('autumn_degree_count_text').textContent = autumnTotalDegree;
+        };
+
+
+        function getSubjectCount() {
+            // 現在の科目数を取得
+            const subjectInputs = document.getElementById('autumn_subject');
+            return subjectInputs.children.length;
+        }
+
+
+        function addSubjectInput(subjectName="") {
+            const subjectIndex = getSubjectCount() + 1;
+
+            const subjectInputs = document.getElementById('autumn_subject');
+            const newSubjectDiv = document.createElement('div');
+
+
+            newSubjectDiv.className = `subject-input-${subjectIndex} subject-div`;
+            newSubjectDiv.innerHTML = `
+                <button onclick="removeSubjectDiv(${subjectIndex})" class="remove-subject-button">&times;</button>
+                <div class="subject-inner-div">
+                    <p>科目名</p>
+                    <input type="text" value="${subjectName}" placeholder="ここに入力" list="subjects" class="subject-name-input">
+                    <datalist id="subjects">
+                        <option value="数学1B"></option>
+                        <option value="数学2B"></option>
+                        <option value="数学3B"></option>
+                        <option value="理工学概論"></option>
+                        <option value="生物学序論"></option>
+                        <option value="自然科学実験"></option>
+                    </datalist>
+                </div>
+                <div class="subject-inner-div">
+                    <p>評価</p>
+                    <div class="subject-radio-group">
+                        <input type="radio" name="subject-${subjectIndex}" value="4" id="S-${subjectIndex}" oninput="calculate()">
+                        <label class="subject-label" for="S-${subjectIndex}">S</label>
+
+                        <input type="radio" name="subject-${subjectIndex}" value="3" id="A-${subjectIndex}" oninput="calculate()">
+                        <label class="subject-label" for="A-${subjectIndex}">A</label>
+
+                        <input type="radio" name="subject-${subjectIndex}" value="2" id="B-${subjectIndex}" oninput="calculate()">
+                        <label class="subject-label" for="B-${subjectIndex}">B</label>
+
+                        <input type="radio" name="subject-${subjectIndex}" value="1" id="C-${subjectIndex}" oninput="calculate()">
+                        <label class="subject-label" for="C-${subjectIndex}">C</label>
+
+                        <input type="radio" name="subject-${subjectIndex}" value="0" id="D-${subjectIndex}" oninput="calculate()">
+                        <label class="subject-label" for="D-${subjectIndex}">D</label>
+                    </div>
+                </div>
+                <div class="subject-inner-div">
+                    <p>単位数</p>
+                    <div class="degree-radio-group">
+                        <input type="radio" name="degree-count-${subjectIndex}" value="1" id="1-${subjectIndex}" oninput="calculate()">
+                        <label class="degree-count-label" for="1-${subjectIndex}">1</label>
+        
+                        <input type="radio" name="degree-count-${subjectIndex}" value="2" id="2-${subjectIndex}" oninput="calculate()" checked> 
+                        <label class="degree-count-label" for="2-${subjectIndex}">2</label>
+                    </div>
+                </div>`;
+            subjectInputs.appendChild(newSubjectDiv);
+            requestAnimationFrame(() => {
+                newSubjectDiv.classList.add('added');
+                calculate();
+            });
+
+        }
+
+        function removeSubjectDiv(subjectIndex) {
+            const subjectInputs = document.getElementById('autumn_subject');
+            const subjectDiv = document.querySelector(`.subject-input-${subjectIndex}`);
+            if (subjectDiv) {
+                subjectDiv.classList.add('removing');
+                subjectDiv.addEventListener('transitionend', () => {
+                    subjectInputs.removeChild(subjectDiv);
+                    calculate();
+                });
+            }
+        }
+
+        function truncateToTwoDecimals(number) {
+            return Math.floor(number * 100) / 100;
+        }
+
+
+        function calculate() {
+            const springGPA = document.getElementById('springGpaInput').value;
+            const springTotalDegree = document.getElementById('springTotalDegreeInput').value;
+            const springGradesTotal = springGPA * springTotalDegree;
+
+            let autumnGradesTotal = 0;
+            let autumnTotalDegree = 0;
+            const subjectCount = getSubjectCount();  // 現在の科目数を取得
+
+            for (let i = 1; i <= subjectCount; i++) {
+                const gradeValue = document.querySelector(`input[name="subject-${i}"]:checked`);
+                const degreeCount = document.querySelector(`input[name="degree-count-${i}"]:checked`);
+                if (gradeValue) {
+                    autumnGradesTotal = parseFloat(autumnGradesTotal) + parseFloat(gradeValue.value, 10) * parseFloat(degreeCount.value, 10); 
+                    autumnTotalDegree = parseFloat(autumnTotalDegree) + parseFloat(degreeCount.value, 10); 
+                }
+            }
+
+            console.log("秋成績数", autumnGradesTotal);
+            console.log("秋単位数", autumnTotalDegree);
+            console.log("subjectCount", subjectCount);
+            
+
+            const gradesTotal = parseFloat(springGradesTotal) + parseFloat(autumnGradesTotal);
+            const totalDegree = parseFloat(springTotalDegree) + parseFloat(autumnTotalDegree);
+
+            console.log("総合成績数", gradesTotal);
+            console.log("総合単位数", totalDegree);
+
+            let totalGPA = gradesTotal / totalDegree;
+            if (isNaN(totalGPA) || !isFinite(totalGPA)) {
+                totalGPA = "-";
+            } else {
+                totalGPA = truncateToTwoDecimals(totalGPA);
+            }
+            
+            document.getElementById('autumn_degree_count_text').textContent = autumnTotalDegree;
+            document.getElementById('result').textContent = totalGPA;
+        }
+
+        
+    </script>
+
+<p class="warning">
+    本サイトでは、入力情報の取得はいたしません。<br>
+    また、計算結果に関して誤りが生じる場合がございます。<br>
+    自己責任でお使いください</p>
+</body>
+<footer><br>&copy; 2024 Ryu Ishizaki</footer>
+</html>
