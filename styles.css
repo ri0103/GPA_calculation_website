@@ -16,6 +16,7 @@ body{
 
 h1{
     font-size: 24px;
+    font-weight: 400;
 }
 
 .spring_inputs_div{
@@ -34,39 +35,25 @@ h1{
 }
 
 .spring-inputs-inner p{
-    width: 160px;
+    width: 200px;
     text-align: left;
     margin: 0;
 }
 
 .spring-inputs-inner input{
-    align-items: center;
+    width: 72px;
+    height: 24px;
     text-align: center;
-    font-size: 14px;
-    width: 100px;
+    font-size: 18px;
+    font-weight: 500;
     border: none;
     border-radius: 4px;
-    height: 24px;
 }
 
 #autumn_subject{
     justify-content: center;
     align-items: center;
     align-content: center;
-}
-
-#springGpaInput{
-    font-size: 20px;
-    width: 76px;
-    height: 24px;
-    font-weight: 400;
-}
-
-#springTotalDegreeInput{
-    font-size: 18px;
-    width: 76px;
-    height: 24px;
-    font-weight: 400;
 }
 
 input[type=radio] {
@@ -83,17 +70,19 @@ input[type=radio] {
     color: #ffffff; /* マウス選択時のフォント色を指定する */
 }
 
+.gakumon-radio-group input[type="radio"]:checked + label {
+    background: #488768;/* マウス選択時の背景色を指定する */
+    color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+
 .subject-label{
-    /* display: block;  */
-    /* float: left;  */
-    /* margin: 1px;  */
     width: 24px; 
     height: 24px;
     padding: 0 2px 0 2px;
     color: #363636;
     text-align: center;
     cursor: pointer; 
-    /* border: 2px solid #2e5882; */
+    font-weight: 600;
     border-radius: 4px; 
 }
 
@@ -112,25 +101,28 @@ input[type=radio] {
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(-20px);
-    position: relative;
+    /* position: relative; */
     width: fit-content;
-    padding: 12px;
+    padding: 6px;
     display: flex;
+    gap: 6px;
     margin: 12px;
     margin: 12px auto;
     background-color: #b9d2eb;
-    border-radius: 12px;
+    border-radius: 6px;
 }
 
 .subject-div.added {
+    transition: all 0.3s ease;
     opacity: 1;
     transform: translateY(0);
 }
+
 .subject-div.removing {
-    font-size: 1px;
+    transition: all 0.3s ease-out;
     opacity: 0;
     height: 0;
-    transform: translateY(20px);
+    transform: scaleY(20px);
 }
 
 .remove-subject-button{
@@ -157,7 +149,6 @@ input[type=radio] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 4px;
 }
 
 .subject-inner-div > p{
@@ -194,7 +185,7 @@ input[type=radio] {
 }
 
 .autumn_degree_count_preview p{
-    margin: 12px 0px;
+    margin: 0 0 12px 0;
 }
 
 #autumn_degree_count_text{
@@ -231,6 +222,7 @@ input[type=radio] {
     font-size: 48px;
     color: #488768;
     font-weight: 700;
+    letter-spacing: 0.05em;
 }
 
 .warning{

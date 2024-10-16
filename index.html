@@ -17,14 +17,26 @@
     
     <div class="spring_inputs_div">
         <div class="spring-inputs-inner">
-            <p>春学期のGPA</p>
+            <p>これまでのGPA</p>
             <input type="number" id="springGpaInput" oninput="calculate()">
              
         </div>
         <div class="spring-inputs-inner">
-            <p>春学期の単位数</p>  
+            <p>これまでの履修単位数</p>  
             <input type="number" id="springTotalDegreeInput" oninput="calculate()">
         </div>
+    </div>
+    <div class="gakumon-radio-group">
+        <input type="radio" name="gakumon" value="0" id="A-gakumon" oninput="setSubject()">
+        <label class="gakumon-label" for="A-gakumon">学問A</label>
+        <input type="radio" name="gakumon" value="1" id="B-gakumon" oninput="setSubject()">
+        <label class="gakumon-label" for="B-gakumon">学問B</label>
+        <input type="radio" name="gakumon" value="2" id="C-gakumon" oninput="setSubject()">
+        <label class="gakumon-label" for="C-gakumon">学問C</label>
+        <input type="radio" name="gakumon" value="3" id="D-gakumon" oninput="setSubject()">
+        <label class="gakumon-label" for="D-gakumon">学問D</label>
+        <input type="radio" name="gakumon" value="4" id="E-gakumon" oninput="setSubject()">
+        <label class="gakumon-label" for="E-gakumon">学問E</label>
     </div>
     <div id="autumn_subject">
     </div>
@@ -41,10 +53,6 @@
     <script>
 
         window.onload = function () {
-            const defaultSubjects = ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学B"];
-            for (let i = 0; i < defaultSubjects.length; i++) {
-                addSubjectInput(defaultSubjects[i]);
-            }
             document.getElementById('autumn_degree_count_text').textContent = autumnTotalDegree;
         };
 
@@ -55,13 +63,38 @@
             return subjectInputs.children.length;
         }
 
+        function setSubject() {
+            const subjectInputs = document.getElementById('autumn_subject');
+            while (subjectInputs.firstChild) {
+                subjectInputs.removeChild(subjectInputs.firstChild);
+            };
+
+            const defaultSubjects = [
+                ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学B", "数学1B", "数学2B"],
+                ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学B", "数学1B", "数学2B"],
+                ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学B", "数学2B", "数学3B"],
+                ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学B", "数学1B", "数学2B"],
+                ["第二外国語1", "第二外国語2", "第二外国語3", "第二外国語4", "英語2", "物理学C", "物理学D" , "化学C", "化学D", "数学1B"],
+            ];
+
+            const gakumonIndex = document.querySelector(`input[name="gakumon"]:checked`).value;
+            // console.log("gakumonkore", defaultSubjects[gakumonIndex].length);
+            for (let i = 0; i < defaultSubjects[gakumonIndex].length; i++) {
+                addSubjectInput(defaultSubjects[gakumonIndex][i]);
+            }
+
+        }
+
+        let subjectIndex = 0;
+        let subjectIndexList = [];
+
 
         function addSubjectInput(subjectName="") {
-            const subjectIndex = getSubjectCount() + 1;
+            subjectIndex += 1;
+            subjectIndexList[subjectIndexList.length] = subjectIndex;
 
             const subjectInputs = document.getElementById('autumn_subject');
             const newSubjectDiv = document.createElement('div');
-
 
             newSubjectDiv.className = `subject-input-${subjectIndex} subject-div`;
             newSubjectDiv.innerHTML = `
@@ -73,6 +106,11 @@
                         <option value="数学1B"></option>
                         <option value="数学2B"></option>
                         <option value="数学3B"></option>
+                        <option value="物理学C"></option>
+                        <option value="物理学D"></option>
+                        <option value="化学B"></option>
+                        <option value="化学C"></option>
+                        <option value="化学D"></option>
                         <option value="理工学概論"></option>
                         <option value="生物学序論"></option>
                         <option value="自然科学実験"></option>
@@ -117,13 +155,19 @@
 
         function removeSubjectDiv(subjectIndex) {
             const subjectInputs = document.getElementById('autumn_subject');
+
+            let index = subjectIndexList.indexOf(subjectIndex);
+            if (index !== -1) {
+                subjectIndexList.splice(index, 1);
+            }
+
             const subjectDiv = document.querySelector(`.subject-input-${subjectIndex}`);
             if (subjectDiv) {
                 subjectDiv.classList.add('removing');
                 subjectDiv.addEventListener('transitionend', () => {
                     subjectInputs.removeChild(subjectDiv);
                     calculate();
-                });
+                }, { once: true });
             }
         }
 
@@ -139,27 +183,33 @@
 
             let autumnGradesTotal = 0;
             let autumnTotalDegree = 0;
-            const subjectCount = getSubjectCount();  // 現在の科目数を取得
+            // const subjectLength = getSubjectCount(); 
 
-            for (let i = 1; i <= subjectCount; i++) {
+            // console.log(subjectLength);
+            // console.log(subjectIndexList);
+
+            // for (i in subjectIndexList) {
+            subjectIndexList.forEach(i => {
                 const gradeValue = document.querySelector(`input[name="subject-${i}"]:checked`);
                 const degreeCount = document.querySelector(`input[name="degree-count-${i}"]:checked`);
                 if (gradeValue) {
                     autumnGradesTotal = parseFloat(autumnGradesTotal) + parseFloat(gradeValue.value, 10) * parseFloat(degreeCount.value, 10); 
                     autumnTotalDegree = parseFloat(autumnTotalDegree) + parseFloat(degreeCount.value, 10); 
                 }
-            }
+            });
 
-            console.log("秋成績数", autumnGradesTotal);
-            console.log("秋単位数", autumnTotalDegree);
-            console.log("subjectCount", subjectCount);
+            // }
+
+            // console.log("秋成績数", autumnGradesTotal);
+            // console.log("秋単位数", autumnTotalDegree);
+            // console.log("subjectCount", subjectCount);
             
 
             const gradesTotal = parseFloat(springGradesTotal) + parseFloat(autumnGradesTotal);
             const totalDegree = parseFloat(springTotalDegree) + parseFloat(autumnTotalDegree);
 
-            console.log("総合成績数", gradesTotal);
-            console.log("総合単位数", totalDegree);
+            // console.log("総合成績数", gradesTotal);
+            // console.log("総合単位数", totalDegree);
 
             let totalGPA = gradesTotal / totalDegree;
             if (isNaN(totalGPA) || !isFinite(totalGPA)) {
