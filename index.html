@@ -240,6 +240,8 @@
         }
 
         function saveToLocalStorage() {
+            const languageIndex = document.querySelector(`input[name="language"]:checked`).value;
+            const gakumonIndex = document.querySelector(`input[name="gakumon"]:checked`).value;
             const springGPA = document.getElementById('springGpaInput').value;
             const springTotalDegree = document.getElementById('springTotalDegreeInput').value;
             
@@ -253,6 +255,8 @@
 
             // データをオブジェクトとして保存
             const data = {
+                languageIndex,
+                gakumonIndex,
                 springGPA,
                 springTotalDegree,
                 subjects
@@ -265,6 +269,10 @@
         function loadFromLocalStorage() {
             const data = JSON.parse(localStorage.getItem('gpaData'));
             if (data) {
+
+                document.querySelector(`input[name="language"]:checked`).value = data.languageIndex;
+                document.querySelector(`input[name="gakumon"]:checked`).value = data.gakumonIndex;
+
                 document.getElementById('springGpaInput').value = data.springGPA;
                 document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
                 
