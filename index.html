@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPA計算機</title>
     <link rel="icon" type="image/png" href="favicon.png" sizes="16x16 24x24 32x32 48x48 64x64">
-    <link rel=”apple-touch-icon” href="favicon.png" sizes=”180×180″>
+    <link rel="apple-touch-icon" href="favicon.png" sizes="180x180">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,10 +68,9 @@
 
     <script>
 
-        // window.onload = function () {
-        //     document.getElementById('autumn_degree_count_text').textContent = autumnTotalDegree;
-        // };
-
+        window.onload = function() {
+            loadFromLocalStorage(); // ローカルストレージからデータを読み込む
+        };
     
         function getSubjectCount() {
             // 現在の科目数を取得
@@ -236,6 +235,49 @@
             
             document.getElementById('autumn_degree_count_text').textContent = autumnTotalDegree;
             document.getElementById('result').textContent = totalGPA;
+
+            saveToLocalStorage();
+        }
+
+        function saveToLocalStorage() {
+            const springGPA = document.getElementById('springGpaInput').value;
+            const springTotalDegree = document.getElementById('springTotalDegreeInput').value;
+            
+            let subjects = [];
+            subjectIndexList.forEach(i => {
+                const subjectName = document.querySelector(`.subject-input-${i} input[type="text"]`).value;
+                const gradeValue = document.querySelector(`input[name="subject-${i}"]:checked`) ? document.querySelector(`input[name="subject-${i}"]:checked`).value : null;
+                const degreeCount = document.querySelector(`input[name="degree-count-${i}"]:checked`).value;
+                subjects.push({ subjectName, gradeValue, degreeCount });
+            });
+
+            // データをオブジェクトとして保存
+            const data = {
+                springGPA,
+                springTotalDegree,
+                subjects
+            };
+            
+            // JSON に変換して localStorage に保存
+            localStorage.setItem('gpaData', JSON.stringify(data));
+        }
+
+        function loadFromLocalStorage() {
+            const data = JSON.parse(localStorage.getItem('gpaData'));
+            if (data) {
+                document.getElementById('springGpaInput').value = data.springGPA;
+                document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
+                
+                data.subjects.forEach((subject, index) => {
+                    addSubjectInput(subject.subjectName);
+                    const lastSubjectIndex = subjectIndexList[subjectIndexList.length - 1];
+                    
+                    if (subject.gradeValue) {
+                        document.querySelector(`input[name="subject-${lastSubjectIndex}"][value="${subject.gradeValue}"]`).checked = true;
+                    }
+                    document.querySelector(`input[name="degree-count-${lastSubjectIndex}"][value="${subject.degreeCount}"]`).checked = true;
+                });
+            }
         }
 
         
