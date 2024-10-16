@@ -20,7 +20,7 @@ h1{
 }
 
 .spring_inputs_div{
-    margin: 0 auto;
+    margin: 24px auto 12px auto;
     width: fit-content;
     background-color: #bad0df;
     border-radius: 12px;
@@ -50,6 +50,17 @@ h1{
     border-radius: 4px;
 }
 
+.profile-selection-div{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 36px;
+}
+
+.profile-selection-div p{
+    margin: 0;
+}
+
 #autumn_subject{
     justify-content: center;
     align-items: center;
@@ -61,7 +72,7 @@ input[type=radio] {
 }
 
 .subject-radio-group input[type="radio"]:checked + label {
-    background: #4380a8;/* マウス選択時の背景色を指定する */
+    background: #241e76;/* マウス選択時の背景色を指定する */
     color: #ffffff; /* マウス選択時のフォント色を指定する */
 }
 
@@ -71,9 +82,15 @@ input[type=radio] {
 }
 
 .gakumon-radio-group input[type="radio"]:checked + label {
-    background: #488768;/* マウス選択時の背景色を指定する */
+    background: #4380a8;/* マウス選択時の背景色を指定する */
     color: #ffffff; /* マウス選択時のフォント色を指定する */
 }
+
+.language-radio-group input[type="radio"]:checked + label {
+    background: #8643a8;/* マウス選択時の背景色を指定する */
+    color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+
 
 .subject-label{
     width: 24px; 
@@ -93,15 +110,35 @@ input[type=radio] {
     color: #363636;
     text-align: center;
     cursor: pointer; 
-    /* border: 2px solid #2e5882; */
     border-radius: 4px; 
+}
+
+.gakumon-label {
+    width: 80px;
+    padding: 2px 4px;
+    color: #363636;
+    text-align: center;
+    cursor: pointer; 
+    font-weight: 400;
+    border-radius: 4px; 
+    border: 1.5px solid #4380a8;
+}
+.language-label {
+    width: 80px;
+    font-size: 12px;
+    padding: 2px;
+    color: #363636;
+    text-align: center;
+    cursor: pointer; 
+    font-weight: 400;
+    border-radius: 4px; 
+    border: 1.5px solid #8643a8;
 }
 
 .subject-div{
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(-20px);
-    /* position: relative; */
     width: fit-content;
     padding: 6px;
     display: flex;
@@ -144,7 +181,6 @@ input[type=radio] {
     transition: background-color 0.3s ease; 
 }
 
-
 .subject-inner-div{
     display: flex;
     flex-direction: column;
@@ -157,8 +193,13 @@ input[type=radio] {
     padding: 0;
 }
 
-.subject-radio-group, .degree-radio-group{
+.subject-radio-group, .degree-radio-group, .gakumon-radio-group, .language-radio-group{
     display: flex;
+}
+
+.gakumon-radio-group, .language-radio-group{
+    gap: 2px;
+    justify-content: center;
 }
 
 
@@ -192,11 +233,8 @@ input[type=radio] {
     font-weight: 600;
 }
 
-
 .result-div{
     margin: 12px 0;
-    /* display: flex;
-    justify-content: center; */
     gap: 24px;
 }
 
