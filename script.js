@@ -156,7 +156,7 @@ function removeSubjectDiv(subjectIndex) {
 }
 
 function truncateToTwoDecimals(number) {
-    return Math.floor(number * 100) / 100;
+    return (Math.floor(number * 100) / 100).toFixed(2);
 }
 
 function calculate() {
@@ -187,6 +187,7 @@ function calculate() {
     }
     
     document.getElementById('autumn_degree_count_text').textContent = autumnTotalDegree;
+    document.getElementById('total_degree').textContent = totalDegree;
     document.getElementById('result').textContent = totalGPA;
 
     saveToLocalStorage();
