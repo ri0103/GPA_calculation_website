@@ -89,23 +89,25 @@
         }
 
         function reset(){
-            const subjectInputs = document.getElementById('autumn_subject');
-            while (subjectInputs.firstChild) {
-                subjectInputs.removeChild(subjectInputs.firstChild);
-            };
-            
-            if(document.querySelector(`input[name="language"]:checked`)){
-                document.querySelector(`input[name="language"]:checked`).checked = false;
-            }
-            if(document.querySelector(`input[name="gakumon"]:checked`)){
-                document.querySelector(`input[name="gakumon"]:checked`).checked = false;
-            }
+            if (confirm("科目の情報が全部リセットされるけどおけ？")) {
+                const subjectInputs = document.getElementById('autumn_subject');
+                while (subjectInputs.firstChild) {
+                    subjectInputs.removeChild(subjectInputs.firstChild);
+                };
+                
+                if(document.querySelector(`input[name="language"]:checked`)){
+                    document.querySelector(`input[name="language"]:checked`).checked = false;
+                }
+                if(document.querySelector(`input[name="gakumon"]:checked`)){
+                    document.querySelector(`input[name="gakumon"]:checked`).checked = false;
+                }
 
 
-            document.getElementById('springGpaInput').value = "";
-            document.getElementById('springTotalDegreeInput').value = "";
-            localStorage.clear();
-            calculate();
+                document.getElementById('springGpaInput').value = "";
+                document.getElementById('springTotalDegreeInput').value = "";
+                localStorage.clear();
+                calculate();
+            }
         }
 
         function setSubject() {
