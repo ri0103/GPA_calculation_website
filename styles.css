@@ -19,6 +19,11 @@ h1{
     font-weight: 400;
 }
 
+.any-faculty{
+    font-size: 12px;
+    margin: 0;
+}
+
 .spring_inputs_div{
     margin: 24px auto 12px auto;
     width: fit-content;
@@ -139,7 +144,7 @@ input[type=radio] {
 
 .gakumon-label {
     width: 80px;
-    padding: 2px 4px;
+    padding: 8px 4px;
     color: #363636;
     text-align: center;
     cursor: pointer; 
@@ -157,6 +162,11 @@ input[type=radio] {
     font-weight: 400;
     border-radius: 4px; 
     border: 1.5px solid #8643a8;
+}
+
+.language-label span{
+    font-size: 32px;
+    line-height: 32px;
 }
 
 .subject-div{

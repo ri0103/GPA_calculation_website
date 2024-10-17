@@ -10,7 +10,7 @@ function getSubjectCount() {
 }
 
 function reset(){
-    if (confirm("科目の情報が全部リセットされるけどおけ？")) {
+    if (confirm("科目の情報がすべてリセットされます。よろしいですか？")) {
         const subjectInputs = document.getElementById('autumn_subject');
         while (subjectInputs.firstChild) {
             subjectInputs.removeChild(subjectInputs.firstChild);
