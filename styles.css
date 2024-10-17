@@ -83,9 +83,19 @@ input[type=radio] {
     color: #ffffff; /* マウス選択時のフォント色を指定する */
 }
 
+.subject-radio-group input[type="radio"]:hover + label {
+    background: #6b65bc;
+    color: #ffffff;
+}
+
 .degree-radio-group input[type="radio"]:checked + label {
     background: #488768;/* マウス選択時の背景色を指定する */
     color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+
+.degree-radio-group input[type="radio"]:hover + label {
+    background: #9ecbb5;
+    color: #ffffff; 
 }
 
 .gakumon-radio-group input[type="radio"]:checked + label {
@@ -93,9 +103,18 @@ input[type=radio] {
     color: #ffffff; /* マウス選択時のフォント色を指定する */
 }
 
+.gakumon-radio-group input[type="radio"]:hover + label {
+    background: #76add2;
+    color: #ffffff; 
+}
+
 .language-radio-group input[type="radio"]:checked + label {
     background: #8643a8;/* マウス選択時の背景色を指定する */
     color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+.language-radio-group input[type="radio"]:hover + label {
+    background: #b782d2;
+    color: #ffffff; 
 }
 
 
@@ -109,6 +128,7 @@ input[type=radio] {
     font-weight: 600;
     border-radius: 4px; 
 }
+
 
 .degree-count-label {
     height: 24px;
