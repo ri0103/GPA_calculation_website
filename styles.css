@@ -243,15 +243,15 @@ input[type=radio] {
     justify-content: center;
 }
 
-
 .subject-name-input{
     font-size: 16px;
+    line-height: 22px;
     width: 120px;
     border: none;
     border-radius: 4px;
-    height: 24px;
-    overflow: auto; 
-    white-space: nowrap;
+    height: 22px;
+    /* overflow: auto; 
+    white-space: nowrap; */
 }
 
 .action-buttons-div{
