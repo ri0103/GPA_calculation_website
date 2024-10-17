@@ -3,6 +3,13 @@
     color: #363636;
 }
 
+/* 常にライトモードを適用 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: light;
+    }
+}
+
 body{
     text-align: center;
     justify-content: center;
