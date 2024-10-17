@@ -243,6 +243,8 @@ input[type=radio] {
     border: none;
     border-radius: 4px;
     height: 24px;
+    overflow: auto; 
+    white-space: nowrap;
 }
 
 .action-buttons-div{
