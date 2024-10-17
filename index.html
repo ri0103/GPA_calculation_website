@@ -43,6 +43,8 @@
             <label class="gakumon-label" for="E-gakumon">学問E</label>
         </div>
     </div>
+
+
     <div class="spring_inputs_div">
         <div class="spring-inputs-inner">
             <p>これまでのGPA</p>
@@ -57,14 +59,22 @@
     <div id="autumn_subject">
     </div>
 
-    <div class="autumn_degree_count_preview"><p>秋学期の予定取得単位数: <span id="autumn_degree_count_text">-</span></p></div>
+    <div class="autumn_degree_count_preview">
+        <p>今学期の予定取得単位数: <span id="autumn_degree_count_text">0</span></p>
+        <p class="degree-count-warning">*春学期に取得した第二外国語の4単位も含まれております</p>
+    </div>
 
-    <button onclick="addSubjectInput()" class="add-subject-button">+ 科目を追加</button>
+    <div class="action-buttons-div">
+        <button onclick="addSubjectInput()" class="add-subject-button">+ 科目を追加</button>
+        <button onclick="reset()" class="clear-button">クリア</button>
+    </div>
 
     <div class="result-div">
         <!-- <button onclick="calculate()">計算</button> -->
         <p>GPA: <span id="result">-</span></p>
     </div>
+
+    
 
     <script>
 
@@ -78,6 +88,26 @@
             return subjectInputs.children.length;
         }
 
+        function reset(){
+            const subjectInputs = document.getElementById('autumn_subject');
+            while (subjectInputs.firstChild) {
+                subjectInputs.removeChild(subjectInputs.firstChild);
+            };
+            
+            if(document.querySelector(`input[name="language"]:checked`)){
+                document.querySelector(`input[name="language"]:checked`).checked = false;
+            }
+            if(document.querySelector(`input[name="gakumon"]:checked`)){
+                document.querySelector(`input[name="gakumon"]:checked`).checked = false;
+            }
+
+
+            document.getElementById('springGpaInput').value = "";
+            document.getElementById('springTotalDegreeInput').value = "";
+            localStorage.clear();
+            calculate();
+        }
+
         function setSubject() {
             const subjectInputs = document.getElementById('autumn_subject');
             while (subjectInputs.firstChild) {
@@ -89,7 +119,7 @@
                 selectedLanguageIndex = document.querySelector(`input[name="language"]:checked`).value;
             }
 
-            console.log(selectedLanguageIndex);
+            // console.log(selectedLanguageIndex);
             const languageList=["第二外国語", "中国語", "フランス語", "ドイツ語", "朝鮮語", "ロシア語"];
 
             const defaultSubjects = [
@@ -240,47 +270,68 @@
         }
 
         function saveToLocalStorage() {
-            const languageIndex = document.querySelector(`input[name="language"]:checked`).value;
-            const gakumonIndex = document.querySelector(`input[name="gakumon"]:checked`).value;
-            const springGPA = document.getElementById('springGpaInput').value;
-            const springTotalDegree = document.getElementById('springTotalDegreeInput').value;
-            
-            let subjects = [];
-            subjectIndexList.forEach(i => {
-                const subjectName = document.querySelector(`.subject-input-${i} input[type="text"]`).value;
-                const gradeValue = document.querySelector(`input[name="subject-${i}"]:checked`) ? document.querySelector(`input[name="subject-${i}"]:checked`).value : null;
-                const degreeCount = document.querySelector(`input[name="degree-count-${i}"]:checked`).value;
-                subjects.push({ subjectName, gradeValue, degreeCount });
-            });
+            // if(document.querySelector(`input[name="language"]:checked`) && document.querySelector(`input[name="gakumon"]:checked`)){
+                const languageInput = document.querySelector(`input[name="language"]:checked`);
+                let languageIndex = "none";
+                if (languageInput){
+                    languageIndex = languageInput.value;
+                }
+                const gakumonInput = document.querySelector(`input[name="gakumon"]:checked`);
+                let gakumonIndex = "none";
+                if(gakumonInput){
+                    gakumonIndex = gakumonInput.value;
+                }
 
-            // データをオブジェクトとして保存
-            const data = {
-                languageIndex,
-                gakumonIndex,
-                springGPA,
-                springTotalDegree,
-                subjects
-            };
-            
-            // JSON に変換して localStorage に保存
-            localStorage.setItem('gpaData', JSON.stringify(data));
+                // const gakumonIndex = document.querySelector(`input[name="gakumon"]:checked`).value;
+
+                const springGPA = document.getElementById('springGpaInput').value;
+                const springTotalDegree = document.getElementById('springTotalDegreeInput').value;
+                
+                let subjects = [];
+                subjectIndexList.forEach(i => {
+                    if (document.querySelector(`input[name="subject-${i}"]:checked`)){
+                        const subjectName = document.querySelector(`.subject-input-${i} input[type="text"]`).value;
+                        const gradeValue = document.querySelector(`input[name="subject-${i}"]:checked`).value;
+                        const degreeCount = document.querySelector(`input[name="degree-count-${i}"]:checked`).value;
+                        subjects.push({ subjectName, gradeValue, degreeCount });
+                    }
+                });
+
+                // データをオブジェクトとして保存
+                const data = {
+                    languageIndex,
+                    gakumonIndex,
+                    springGPA,
+                    springTotalDegree,
+                    subjects
+                };
+                
+                // JSON に変換して localStorage に保存
+                localStorage.setItem('gpaData', JSON.stringify(data));
+                // console.log("保存しました", data);
+
         }
 
         function loadFromLocalStorage() {
             const data = JSON.parse(localStorage.getItem('gpaData'));
+            // console.log("復元データ", data);
             if (data) {
-
-                document.querySelector(`input[name="language"]:checked`).value = data.languageIndex;
-                document.querySelector(`input[name="gakumon"]:checked`).value = data.gakumonIndex;
+                if (data.languageIndex !== "none") { 
+                    document.querySelector(`input[name="language"][value="${data.languageIndex}"]`).checked = true;
+                }
+                if (data.gakumonIndex !== "none") {
+                    document.querySelector(`input[name="gakumon"][value="${data.gakumonIndex}"]`).checked = true;
+                }
 
                 document.getElementById('springGpaInput').value = data.springGPA;
                 document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
                 
                 data.subjects.forEach((subject, index) => {
                     addSubjectInput(subject.subjectName);
+                    
                     const lastSubjectIndex = subjectIndexList[subjectIndexList.length - 1];
                     
-                    if (subject.gradeValue) {
+                    if (subject.gradeValue !== "none") {
                         document.querySelector(`input[name="subject-${lastSubjectIndex}"][value="${subject.gradeValue}"]`).checked = true;
                     }
                     document.querySelector(`input[name="degree-count-${lastSubjectIndex}"][value="${subject.degreeCount}"]`).checked = true;

@@ -211,12 +211,31 @@ input[type=radio] {
     height: 24px;
 }
 
+.action-buttons-div{
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
 .add-subject-button{
     background-color: #5c6dac; 
     color: white;
     border: none; 
     border-radius: 12px; /* 円形にする */
-    height: 48px;
+    font-size: 16px;
+    padding: 4px 12px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 48px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.clear-button{
+    background-color: #6a6a6a; 
+    color: white;
+    border: none; 
+    border-radius: 12px; /* 円形にする */
+    padding: 4px 12px;
     font-size: 16px;
     font-weight: 400;
     text-align: center;
@@ -225,13 +244,24 @@ input[type=radio] {
     transition: background-color 0.3s ease; 
 }
 
+.autumn_degree_count_preview{
+    margin-bottom: 12px;
+}
+
 .autumn_degree_count_preview p{
-    margin: 0 0 12px 0;
+    margin: 0;
+}
+
+.degree-count-warning{
+    font-size: 8px;
+    margin: 4px;
+    color: #535353;
 }
 
 #autumn_degree_count_text{
     font-weight: 600;
 }
+
 
 .result-div{
     margin: 12px 0;
@@ -262,6 +292,8 @@ input[type=radio] {
     font-weight: 700;
     letter-spacing: 0.05em;
 }
+
+
 
 .warning{
     font-size: 10px;
