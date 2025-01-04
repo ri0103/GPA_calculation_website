@@ -1,7 +1,15 @@
+import { analytics, logEvent } from './firebase.js';
 
 window.onload = function() {
     loadFromLocalStorage(); // ローカルストレージからデータを読み込む
+    // logEvent(analytics, 'page_view');
 };
+
+window.setSubject = setSubject;
+window.reset = reset;
+window.addSubjectInput = addSubjectInput;
+window.calculate = calculate;
+window.removeSubjectDiv = removeSubjectDiv;
 
 function getSubjectCount() {
     // 現在の科目数を取得
@@ -46,11 +54,11 @@ function setSubject() {
     const languageList=["第二外国語", "中国語", "フランス語", "ドイツ語", "朝鮮語", "ロシア語"];
 
     const defaultSubjects = [
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 C", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 C", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 C", "物理学 D" , "化学 B", "数学 2B", "数学 3B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 C", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 C", "物理学 D" , "化学 C", "化学 D", "数学 1B"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 2B", "数学 3B"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 C", "化学 D", "数学 1B"],
     ];
 
     if(document.querySelector(`input[name="gakumon"]:checked`)){
@@ -191,6 +199,22 @@ function calculate() {
     document.getElementById('result').textContent = totalGPA;
 
     saveToLocalStorage();
+
+      if (analytics) {
+        logEvent(analytics, 'result', {
+            springGPA,
+            springTotalDegree,
+            springGradesTotal,
+            autumnGradesTotal,
+            autumnTotalDegree,
+            gradesTotal,
+            totalDegree,
+            totalGPA
+        });
+    } else {
+        console.error('Firebase Analytics is not initialized.');
+    }
+
 }
 
 function saveToLocalStorage() {

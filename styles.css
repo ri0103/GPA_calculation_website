@@ -360,3 +360,31 @@ footer{
     font-size: 8px;
     padding: 12px;
 }
+
+
+.department-warning{
+    background-color: #f7cbcb;
+    border-radius: 24px;
+    margin-left: 12px;
+    max-width: 800px;
+    padding: 12px;
+    margin: 24px auto 12px auto;
+}
+
+.department-warning h2{
+    font-size: 24px;
+    margin: 0;
+}
+
+
+.department-warning p{
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.department-warning span{
+    color: rgb(255, 44, 44);
+    font-weight: 900;
+    font-size: 24px;
+}
