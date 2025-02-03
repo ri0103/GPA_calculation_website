@@ -3,6 +3,7 @@ import { analytics, logEvent } from './firebase.js';
 window.onload = function() {
     loadFromLocalStorage(); // ローカルストレージからデータを読み込む
     // logEvent(analytics, 'page_view');
+    
 };
 
 window.setSubject = setSubject;
@@ -10,6 +11,7 @@ window.reset = reset;
 window.addSubjectInput = addSubjectInput;
 window.calculate = calculate;
 window.removeSubjectDiv = removeSubjectDiv;
+window.share = share;
 
 
 function reset(){
@@ -288,6 +290,43 @@ function saveToLocalStorage() {
         // console.log("保存しました", data);
 
 }
+
+    function share(){
+        const shareUrl = window.location.href;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(shareUrl)
+            // 既存の shareButton のクリックイベントの.then()内を下記に変更
+            .then(() => {
+                showTemporaryMessage('リンクをコピーしたよ！');
+            })
+            .catch(err => {
+                console.error('リンクのコピーに失敗:', err);
+                showTemporaryMessage('リンクのコピーに失敗したよ！');
+            });
+
+            // 追加：一時表示メッセージを出す関数
+            function showTemporaryMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = message;
+                messageDiv.style.position = 'fixed';
+                messageDiv.style.bottom = '20px';
+                messageDiv.style.left = '50%';
+                messageDiv.style.transform = 'translateX(-50%)';
+                messageDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                messageDiv.style.color = '#fff';
+                messageDiv.style.padding = '10px 20px';
+                messageDiv.style.borderRadius = '5px';
+                messageDiv.style.zIndex = 1000;
+                document.body.appendChild(messageDiv);
+                setTimeout(() => {
+                    messageDiv.remove();
+                }, 2000);
+            }
+        } else {
+            // クリップボードAPIが使えない場合のフォールバック
+            prompt('以下のリンクをコピーしてね:', shareUrl);
+        }
+    }
 
 function loadFromLocalStorage() {
     let data;

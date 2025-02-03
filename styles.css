@@ -343,8 +343,27 @@ input[type=radio] {
 #result{
     font-size: 48px;
     color: #488768;
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
     letter-spacing: 0.05em;
+}
+
+.share-button{
+    margin-top: 12px;
+    width: 160px;
+    height: 48px;
+    background-color: #4380a8; 
+    color: white;
+    border: none; 
+    border-radius: 12px;
+    font-size: 16px;
+    text-align: center;
+    padding: 12px 18px;
+}
+
+.fa-arrow-up-from-bracket{
+    color: white;
+    margin-right: 8px;
 }
 
 .total-degree-count-text{
@@ -353,6 +372,8 @@ input[type=radio] {
 }
 
 #total_degree{
+    color: #686dca;
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
 }
 
