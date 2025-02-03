@@ -11,11 +11,6 @@ window.addSubjectInput = addSubjectInput;
 window.calculate = calculate;
 window.removeSubjectDiv = removeSubjectDiv;
 
-function getSubjectCount() {
-    // 現在の科目数を取得
-    const subjectInputs = document.getElementById('autumn_subject');
-    return subjectInputs.children.length;
-}
 
 function reset(){
     if (confirm("科目の情報がすべてリセットされます。よろしいですか？")) {
@@ -37,6 +32,39 @@ function reset(){
         localStorage.clear();
         calculate();
     }
+}
+
+function updateShareableUrl() {
+    // 現在のデータを集める
+    const languageInput = document.querySelector('input[name="language"]:checked');
+    const gakumonInput = document.querySelector('input[name="gakumon"]:checked');
+    const languageIndex = languageInput ? languageInput.value : "none";
+    const gakumonIndex = gakumonInput ? gakumonInput.value : "none";
+    const springGPA = document.getElementById('springGpaInput').value;
+    const springTotalDegree = document.getElementById('springTotalDegreeInput').value;
+    
+    let subjects = [];
+    subjectIndexList.forEach(i => {
+        const subjectDiv = document.querySelector(`.subject-input-${i}`);
+        if (subjectDiv) {
+            const subjectName = subjectDiv.querySelector('input[type="text"]').value;
+            const gradeInput = document.querySelector(`input[name="subject-${i}"]:checked`);
+            const degreeInput = document.querySelector(`input[name="degree-count-${i}"]:checked`);
+            if (gradeInput && degreeInput) {
+                subjects.push({
+                    subjectName,
+                    gradeValue: gradeInput.value,
+                    degreeCount: degreeInput.value
+                });
+            }
+        }
+    });
+
+    const data = { languageIndex, gakumonIndex, springGPA, springTotalDegree, subjects };
+    // JSON化してエンコード
+    const encodedData = encodeURIComponent(JSON.stringify(data));
+    // ハッシュ部分に反映（history.replaceStateでリロードせずにURL更新）
+    history.replaceState(null, "", window.location.pathname + "#data=" + encodedData);
 }
 
 function setSubject() {
@@ -199,6 +227,7 @@ function calculate() {
     document.getElementById('result').textContent = totalGPA;
 
     saveToLocalStorage();
+    updateShareableUrl();
 
       if (analytics) {
         logEvent(analytics, 'result', {
@@ -261,8 +290,19 @@ function saveToLocalStorage() {
 }
 
 function loadFromLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('gpaData'));
-    // console.log("復元データ", data);
+    let data;
+    // URLのハッシュ部分にデータがあればそれをパースする
+    if (window.location.hash.startsWith("#data=")) {
+        const encodedData = window.location.hash.replace("#data=", "");
+        try {
+            data = JSON.parse(decodeURIComponent(encodedData));
+        } catch (e) {
+            console.error("URL内のデータが不正:", e);
+        }
+    } else {
+        data = JSON.parse(localStorage.getItem('gpaData'));
+    }
+    // 以下、既存のdataを使った復元処理
     if (data) {
         if (data.languageIndex !== "none") { 
             document.querySelector(`input[name="language"][value="${data.languageIndex}"]`).checked = true;
@@ -270,7 +310,7 @@ function loadFromLocalStorage() {
         if (data.gakumonIndex !== "none") {
             document.querySelector(`input[name="gakumon"][value="${data.gakumonIndex}"]`).checked = true;
         }
-
+    
         document.getElementById('springGpaInput').value = data.springGPA;
         document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
         
