@@ -63,10 +63,13 @@ function updateShareableUrl() {
     });
 
     const data = { languageIndex, gakumonIndex, springGPA, springTotalDegree, subjects };
-    // JSON化してエンコード
-    const encodedData = encodeURIComponent(JSON.stringify(data));
+
+    const compressedData = LZString.compressToEncodedURIComponent(JSON.stringify(data));
+
+    // // JSON化してエンコード
+    // const encodedData = encodeURIComponent(JSON.stringify(data));
     // ハッシュ部分に反映（history.replaceStateでリロードせずにURL更新）
-    history.replaceState(null, "", window.location.pathname + "#data=" + encodedData);
+    history.replaceState(null, "", window.location.pathname + "#data=" + compressedData);
 }
 
 function setSubject() {
@@ -328,40 +331,41 @@ function saveToLocalStorage() {
         }
     }
 
-function loadFromLocalStorage() {
-    let data;
-    // URLのハッシュ部分にデータがあればそれをパースする
-    if (window.location.hash.startsWith("#data=")) {
-        const encodedData = window.location.hash.replace("#data=", "");
-        try {
-            data = JSON.parse(decodeURIComponent(encodedData));
-        } catch (e) {
-            console.error("URL内のデータが不正:", e);
-        }
-    } else {
-        data = JSON.parse(localStorage.getItem('gpaData'));
-    }
-    // 以下、既存のdataを使った復元処理
-    if (data) {
-        if (data.languageIndex !== "none") { 
-            document.querySelector(`input[name="language"][value="${data.languageIndex}"]`).checked = true;
-        }
-        if (data.gakumonIndex !== "none") {
-            document.querySelector(`input[name="gakumon"][value="${data.gakumonIndex}"]`).checked = true;
-        }
-    
-        document.getElementById('springGpaInput').value = data.springGPA;
-        document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
-        
-        data.subjects.forEach((subject, index) => {
-            addSubjectInput(subject.subjectName);
-            
-            const lastSubjectIndex = subjectIndexList[subjectIndexList.length - 1];
-            
-            if (subject.gradeValue !== "none") {
-                document.querySelector(`input[name="subject-${lastSubjectIndex}"][value="${subject.gradeValue}"]`).checked = true;
+    function loadFromLocalStorage() {
+        let data;
+        // URLのハッシュ部分にデータがあればそれをパースする
+        if (window.location.hash.startsWith("#data=")) {
+            const compressedData = window.location.hash.replace("#data=", "");
+            try {
+                const decompressedData = LZString.decompressFromEncodedURIComponent(compressedData);
+                data = JSON.parse(decompressedData);
+            } catch (e) {
+                console.error("URL内のデータが不正:", e);
             }
-            document.querySelector(`input[name="degree-count-${lastSubjectIndex}"][value="${subject.degreeCount}"]`).checked = true;
-        });
+        } else {
+            data = JSON.parse(localStorage.getItem('gpaData'));
+        }
+        // 以下、既存のdataを使った復元処理（そのまま）
+        if (data) {
+            if (data.languageIndex !== "none") { 
+                document.querySelector(`input[name="language"][value="${data.languageIndex}"]`).checked = true;
+            }
+            if (data.gakumonIndex !== "none") {
+                document.querySelector(`input[name="gakumon"][value="${data.gakumonIndex}"]`).checked = true;
+            }
+        
+            document.getElementById('springGpaInput').value = data.springGPA;
+            document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
+            
+            data.subjects.forEach((subject, index) => {
+                addSubjectInput(subject.subjectName);
+                
+                const lastSubjectIndex = subjectIndexList[subjectIndexList.length - 1];
+                
+                if (subject.gradeValue !== "none") {
+                    document.querySelector(`input[name="subject-${lastSubjectIndex}"][value="${subject.gradeValue}"]`).checked = true;
+                }
+                document.querySelector(`input[name="degree-count-${lastSubjectIndex}"][value="${subject.degreeCount}"]`).checked = true;
+            });
+        }
     }
-}
