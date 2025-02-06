@@ -84,32 +84,38 @@ input[type=radio] {
     display: none; /* ラジオボタンを非表示にする */
 }
 
-.subject-radio-group input[type="radio"]:checked:hover + label,
-.subject-radio-group input[type="radio"]:checked + label {
-    /* background: #241e76; */
-    color: #ffffff; /* マウス選択時のフォント色を指定する */
+/* S評価（ゴールドグラデーション） */
+.grade-radio-s:checked + label, .grade-radio-s:hover + label {
+    background: linear-gradient(45deg, #FFD700, #B8860B);
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.8); /* 軽い光のエフェクト */
 }
 
-.grade-radio-s:checked + label{
-    background-color: #B8860B;
-}
-.grade-radio-a:checked + label{
-    background-color: #0070C0;
-}
-.grade-radio-b:checked + label{
-    background-color: #8C6239;
-}
-.grade-radio-c:checked + label{
-    background-color: #D35400;
-}
-.grade-radio-d:checked + label{
-    background-color: #C00000;
-}
-
-.subject-radio-group input[type="radio"]:hover + label {
-    background: #6b65bc;
+/* A評価（ロイヤルブルー） */
+.grade-radio-a:checked + label, .grade-radio-a:hover + label {
+    background-color: #0057B8;
     color: #ffffff;
 }
+
+/* B評価（サンドブラウン） */
+.grade-radio-b:checked + label, .grade-radio-b:hover + label {
+    background-color: #C17D4B;
+    color: #ffffff;
+}
+
+/* C評価（ダークアンバー） */
+.grade-radio-c:checked + label, .grade-radio-c:hover + label {
+    background-color: #AA4A30;
+    color: #ffffff;
+}
+
+/* D評価（クリムゾンレッド） */
+.grade-radio-d:checked + label, .grade-radio-d:hover + label {
+    background-color: #8B0000;
+    color: #ffffff;
+}
+
 
 .degree-radio-group input[type="radio"]:checked:hover + label,
 .degree-radio-group input[type="radio"]:checked + label {
