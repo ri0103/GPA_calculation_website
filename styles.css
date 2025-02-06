@@ -48,9 +48,9 @@ h1{
 
 .spring-inputs-inner input{
     width: 72px;
-    height: 24px;
+    height: 36px;
     text-align: center;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 500;
     border: none;
     border-radius: 4px;
@@ -60,7 +60,7 @@ h1{
     display: flex;
     flex-direction: column;
     gap: 4px;
-    margin-top: 36px;
+    margin-top: 24px;
 }
 
 .profile-selection-div p{
@@ -86,8 +86,24 @@ input[type=radio] {
 
 .subject-radio-group input[type="radio"]:checked:hover + label,
 .subject-radio-group input[type="radio"]:checked + label {
-    background: #241e76;/* マウス選択時の背景色を指定する */
+    /* background: #241e76; */
     color: #ffffff; /* マウス選択時のフォント色を指定する */
+}
+
+.grade-radio-s:checked + label{
+    background-color: #B8860B;
+}
+.grade-radio-a:checked + label{
+    background-color: #0070C0;
+}
+.grade-radio-b:checked + label{
+    background-color: #8C6239;
+}
+.grade-radio-c:checked + label{
+    background-color: #D35400;
+}
+.grade-radio-d:checked + label{
+    background-color: #C00000;
 }
 
 .subject-radio-group input[type="radio"]:hover + label {
@@ -256,9 +272,7 @@ input[type=radio] {
     width: 120px;
     border: none;
     border-radius: 4px;
-    height: 22px;
-    /* overflow: auto; 
-    white-space: nowrap; */
+    height: 24px;
 }
 
 .action-buttons-div{
@@ -388,30 +402,38 @@ footer{
 }
 
 .message{
-    background-color: #b6ebd8;
+    background-color: #cceee2;
     border-radius: 24px;
     margin-left: 12px;
-    max-width: 600px;
-    padding: 12px;
+    width: fit-content;
+    /* max-width: 600px; */
+    padding: 24px;
     margin: 24px auto 12px auto;
 }
 
 .message h2{
-    font-size: 24px;
-    margin: 12px;
+    font-size: 20px;
+    margin: 0 0 12px 0;
     font-weight: 500;
 }
 
 .message p{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     margin: 0;
 }
 
 .message span{
     color: rgb(214, 94, 94);
-    text-decoration: underline;
+    /* text-decoration: underline; */
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 600;
     font-size: 24px;
+}
+
+.time-container{
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 4px 0;
 }

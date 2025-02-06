@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5faff">
-    <meta name="description" content="慶應生のためのGPA計算ツール！科目ごとの評価を入れるだけで簡単にGPAがシミュレーションできます！理工学部生向けの自動入力機能もあり、便利なGPA計算ツールとなっています" />
+    <meta name="description" content="慶應生のためのGPA計算ツール! 科目ごとの評価を入れるだけで簡単にGPAがシミュレーションできます! 理工学部生向けの自動入力機能もあり、便利なGPA計算ツールとなっています" />
     <title>GPA計算機</title>
     <link rel="icon" type="image/png" href="favicon.png" sizes="16x16 24x24 32x32 48x48 64x64">
     <link rel="apple-touch-icon" href="icon.png" sizes="180x180">
@@ -22,8 +22,15 @@
 
     <div class="message">
         <h2>秋学期末試験お疲れ様でした！</h2>
-        <p>理工学部 新2年生の学科発表は</p>
-        <p><span>3月10日(月) 10:00</span> (成績発表時)</p>
+        <p>理工学部 新2年生の学科発表まで</p>
+        <!-- <p>3月10日(月) 10:00 (成績発表時)まで</p> -->
+
+        <div class="time-container">
+            <p class="time"><span id="day"></span>日</p>
+            <p class="time"><span id="hour"></span>時間</p>
+            <p class="time"><span id="min"></span>分</p>
+            <p class="time"><span id="sec"></span>秒</p>
+        </div>
         <p>となります......</p>
     </div>
 
@@ -98,6 +105,7 @@
     </p>
 
     <script type="module" src="script.js"></script>
+    <script type="module" src="countdown.js"></script>
     <footer><br>&copy; 2025 RI</footer>
 </body>
 

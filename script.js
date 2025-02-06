@@ -144,19 +144,19 @@ function addSubjectInput(subjectName="") {
         <div class="subject-inner-div">
             <p>評価</p>
             <div class="subject-radio-group">
-                <input type="radio" name="subject-${subjectIndex}" value="4" id="S-${subjectIndex}" oninput="calculate()">
+                <input type="radio" name="subject-${subjectIndex}" value="4" id="S-${subjectIndex}" oninput="calculate()" class="grade-radio-s">
                 <label class="subject-label" for="S-${subjectIndex}">S</label>
 
-                <input type="radio" name="subject-${subjectIndex}" value="3" id="A-${subjectIndex}" oninput="calculate()">
+                <input type="radio" name="subject-${subjectIndex}" value="3" id="A-${subjectIndex}" oninput="calculate()" class="grade-radio-a">
                 <label class="subject-label" for="A-${subjectIndex}">A</label>
 
-                <input type="radio" name="subject-${subjectIndex}" value="2" id="B-${subjectIndex}" oninput="calculate()">
+                <input type="radio" name="subject-${subjectIndex}" value="2" id="B-${subjectIndex}" oninput="calculate()" class="grade-radio-b">
                 <label class="subject-label" for="B-${subjectIndex}">B</label>
 
-                <input type="radio" name="subject-${subjectIndex}" value="1" id="C-${subjectIndex}" oninput="calculate()">
+                <input type="radio" name="subject-${subjectIndex}" value="1" id="C-${subjectIndex}" oninput="calculate()" class="grade-radio-c">
                 <label class="subject-label" for="C-${subjectIndex}">C</label>
 
-                <input type="radio" name="subject-${subjectIndex}" value="0" id="D-${subjectIndex}" oninput="calculate()">
+                <input type="radio" name="subject-${subjectIndex}" value="0" id="D-${subjectIndex}" oninput="calculate()" class="grade-radio-d">
                 <label class="subject-label" for="D-${subjectIndex}">D</label>
             </div>
         </div>
