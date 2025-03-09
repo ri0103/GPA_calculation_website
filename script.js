@@ -28,7 +28,6 @@ function reset(){
             document.querySelector(`input[name="gakumon"]:checked`).checked = false;
         }
 
-
         document.getElementById('springGpaInput').value = "";
         document.getElementById('springTotalDegreeInput').value = "";
         localStorage.clear();
