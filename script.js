@@ -88,7 +88,9 @@ function setSubject() {
 
     const defaultSubjects = [
         [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 1A", "数学 2A"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 1A", "数学 2A"],
         [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 2A", "数学 3A"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 1A", "数学 2A"],
         [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 1A", "数学 2A"],
     ];
 
