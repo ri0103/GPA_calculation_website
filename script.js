@@ -1,8 +1,9 @@
-import { analytics, logEvent } from './firebase.js';
+import { analytics } from './firebase.js';
 
 window.onload = function() {
+
     loadFromLocalStorage(); // ローカルストレージからデータを読み込む
-    // logEvent(analytics, 'page_view');
+    logEvent(analytics, 'page_view');
     
 };
 
@@ -28,8 +29,8 @@ function reset(){
             document.querySelector(`input[name="gakumon"]:checked`).checked = false;
         }
 
-        document.getElementById('springGpaInput').value = "";
-        document.getElementById('springTotalDegreeInput').value = "";
+        document.getElementById('springGpaInput').value = 0;
+        document.getElementById('springTotalDegreeInput').value = 0;
         localStorage.clear();
         calculate();
     }
@@ -86,11 +87,9 @@ function setSubject() {
     const languageList=["第二外国語", "中国語", "フランス語", "ドイツ語", "朝鮮語", "ロシア語"];
 
     const defaultSubjects = [
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 2B", "数学 3B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 B", "数学 1B", "数学 2B"],
-        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, `${languageList[selectedLanguageIndex]} 3`, `${languageList[selectedLanguageIndex]} 4`, "英語 2", "物理学 D" , "化学 C", "化学 D", "数学 1B"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 1A", "数学 2A"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 2A", "数学 3A"],
+        [`${languageList[selectedLanguageIndex]} 1`, `${languageList[selectedLanguageIndex]} 2`, "英語 1", "情報学基礎", "物理学 A", "物理学 B", "化学 A", "数学 1A", "数学 2A"],
     ];
 
     if(document.querySelector(`input[name="gakumon"]:checked`)){
@@ -119,17 +118,10 @@ function addSubjectInput(subjectName="") {
             <p>科目名</p>
             <input type="text" value="${subjectName}" placeholder="ここに入力" list="subjects" class="subject-name-input">
             <datalist id="subjects">
-                <option value="数学 1B"></option>
-                <option value="数学 2B"></option>
-                <option value="数学 3B"></option>
-                <option value="物理学 C"></option>
-                <option value="物理学 D"></option>
-                <option value="化学 B"></option>
-                <option value="化学 C"></option>
-                <option value="化学 D"></option>
                 <option value="理工学概論"></option>
                 <option value="生物学序論"></option>
                 <option value="自然科学実験"></option>
+                <option value="電気情報工学入門セミナーⅠ"></option>
                 <option value="英語リスニング"></option>
                 <option value="英語スピーキング"></option>
                 <option value="総合教育セミナー"></option>
@@ -232,21 +224,6 @@ function calculate() {
 
     saveToLocalStorage();
     updateShareableUrl();
-
-      if (analytics) {
-        logEvent(analytics, 'result', {
-            springGPA,
-            springTotalDegree,
-            springGradesTotal,
-            autumnGradesTotal,
-            autumnTotalDegree,
-            gradesTotal,
-            totalDegree,
-            totalGPA
-        });
-    } else {
-        console.error('Firebase Analytics is not initialized.');
-    }
 
 }
 
@@ -352,9 +329,14 @@ function saveToLocalStorage() {
             if (data.gakumonIndex !== "none") {
                 document.querySelector(`input[name="gakumon"][value="${data.gakumonIndex}"]`).checked = true;
             }
-        
+
             document.getElementById('springGpaInput').value = data.springGPA;
             document.getElementById('springTotalDegreeInput').value = data.springTotalDegree;
+
+            if(data.springGPA === "" && data.springTotalDegree === "") {
+                document.getElementById('springGpaInput').value = 0;
+                document.getElementById('springTotalDegreeInput').value = 0;
+            }
             
             data.subjects.forEach((subject, index) => {
                 addSubjectInput(subject.subjectName);
